@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - 'stable'
+cache:
+  directories:
+    - 'node_modules'
+addons:
+  postgresql: '9.6'
+services:
+  - postgresql
+before_install:
+  - psql -c 'create database readitest' -U postgres
+  - psql -c "CREATE USER $USER_NAME WITH PASSWORD '$USER_SECRET';" -U postgres
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - npm test
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+after_success:
+  - npm run coveralls
