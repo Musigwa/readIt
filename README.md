@@ -1,33 +1,44 @@
-readIt
-Repo Name [codeclimate badge][testing badge]
+# readIt
+## Repo Name [codeclimate badge] [testing badge]
+
 1 sentence tag line
 
-Description
+# Description
+
 3-5 sentences describing the code and what it's purpose is
 
-Documentation
+## Documentation
+
 List of endpoints exposed by the service
 
-Setup
+## Setup
+
 Step by step instructions on how to get the code setup locally. This may include:
 
-Dependencies
+### Dependencies
+
 List of libraries, tools, etc needed (e.g. yarn, node.js, python, etc)
 
-Getting Started
+### Getting Started
+
 List of steps to get started (e.g. clone repo, submodule, .env file, etc)
 
-Run The Service
+### Run The Service
+
 List of steps to run the service (e.g. docker commands)
 
-Microservices
+### Microservices
+
 List out the microservices if any that this repo uses
 
-Testing
+## Testing
+
 Step by step instructions on how to run the tests so that the developer can be sure they've set up the code correctly
 
-Contribute
+## Contribute
+
 Any instructions needed to help others contribute to this repository
 
-Deployment
+## Deployment
+
 Step by step instructions so that the developer can understand how code gets updated
