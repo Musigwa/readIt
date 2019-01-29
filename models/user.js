@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -19,8 +20,8 @@ export default (sequelize, DataTypes) => {
       }
     }
   );
-  User.associate = function(models) {
-    // associations can be defined here
+  User.associate = models => {
+    User.hasMany(models.Post, { foreignKey: 'userId_fk', as: 'posts' });
   };
   return User;
 };
