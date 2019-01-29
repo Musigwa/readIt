@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "ReadIT",
   "version": "1.0.0",
   "description": "Endpoint API for ReadIT application",
@@ -51,33 +50,4 @@
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1"
   }
-=======
-  "name": "readit",
-  "version": "1.0.0",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "dependencies": {
-    "dotenv": "^6.2.0",
-    "express": "^4.16.4",
-    "pg": "^7.8.0",
-    "sequelize": "^4.42.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/abayo-luc/readIt.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/abayo-luc/readIt/issues"
-  },
-  "homepage": "https://github.com/abayo-luc/readIt#readme",
-  "description": ""
->>>>>>> a3e64babe2a27bb5e74b169300bd42490f493849
 }
