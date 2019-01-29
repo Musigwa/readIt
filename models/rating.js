@@ -1,14 +1,14 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Rating = sequelize.define(
     'Rating',
     {
       userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
-      rating: DataTypes.INTEGER,
+      rating: DataTypes.INTEGER
     },
-    {},
+    {}
   );
-  Rating.associate = () => {
+  Rating.associate = function(models) {
     // associations can be defined here
   };
   return Rating;

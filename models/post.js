@@ -1,4 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
+/* eslint-disable arrow-parens */
+export default (sequelize, DataTypes) => {
   const Post = sequelize.define(
     'Post',
     {
@@ -8,10 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       views: DataTypes.INTEGER,
       mediaPath: DataTypes.STRING,
     },
-    {},
+    {}
   );
-  Post.associate = (models) => {
-    // Post belongsTo a User
+  Post.associate = models => {
     Post.belongsTo(models.User);
   };
   return Post;
