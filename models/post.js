@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 export default (sequelize, DataTypes) => {
   const Post = sequelize.define(
     'Post',
@@ -6,12 +7,12 @@ export default (sequelize, DataTypes) => {
       content: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       views: DataTypes.INTEGER,
-      mediaPath: DataTypes.STRING
+      mediaPath: DataTypes.STRING,
     },
     {}
   );
-  Post.associate = function(models) {
-    // associations can be defined here
+  Post.associate = models => {
+    Post.belongsTo(models.User);
   };
   return Post;
 };
