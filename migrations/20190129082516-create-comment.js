@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Comments', {
@@ -9,12 +8,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       postId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       text: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {
