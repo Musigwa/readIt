@@ -1,0 +1,1 @@
+web: DEBUG=readit:start,readit:db NODE_ENV=production nodemon --exec babel-node ./server/index.js
