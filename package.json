@@ -8,10 +8,9 @@
   "scripts": {
     "testenv": "NODE_ENV=test",
     "devenv": "NODE_ENV=development",
-    "server": "clear && DEBUG=readit:* yarn devenv nodemon --exec babel-node index.js",
+    "server": "clear && DEBUG=readit:* yarn devenv nodemon --exec babel-node server.js",
     "build": "babel server -d server/dist",
-    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
-    "test": "clear && yarn testenv jest --coverage"
+    "test": "clear && jest tests/* --forceExit --detectOpenHandles --coverage"
   },
   "engines": {
     "node": "10.15.0"
@@ -48,6 +47,7 @@
     "jest": "^24.0.0",
     "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^4.7.1"
+    "prettier-eslint-cli": "^4.7.1",
+    "supertest": "^3.4.2"
   }
 }

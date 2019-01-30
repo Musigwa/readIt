@@ -4,14 +4,16 @@ import models from '../models';
 const { User } = models;
 export default class UserController {
   static async create(req, res) {
-    const { firstName, lastName, email, password } = req.body;
+    const {
+      firstName, lastName, email, password,
+    } = req.body;
     bcrypt.hash(password, 10, async (err, hash) => {
       try {
         const user = await User.create({
           firstName,
           lastName,
           email,
-          password: hash
+          password: hash,
         });
         user.password = '************';
         res.json({ user });
@@ -26,7 +28,7 @@ export default class UserController {
   static async getAllUser(req, res) {
     try {
       const users = await User.findAll({
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
       res.json({ users });
     } catch (err) {
@@ -39,9 +41,9 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id
+          id,
         },
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
       res.json({ user });
     } catch (err) {
@@ -54,14 +56,14 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id: req.params.id
+          id: req.params.id,
         },
         returning: true,
-        plain: true
+        plain: true,
       });
       const updatedUser = await user.update({
         firstName,
-        lastName
+        lastName,
       });
       updatedUser.password = '******';
 
@@ -71,5 +73,5 @@ export default class UserController {
     }
   }
 
-  //delete user not sure!
+  // delete user not sure!
 }

@@ -1,9 +1,6 @@
-# readIt
-## Repo Name [codeclimate badge] [testing badge]
+# READIT NodeJs/Express application
 
-1 sentence tag line
-
-# Description
+## Description
 
 3-5 sentences describing the code and what it's purpose is
 
@@ -11,29 +8,28 @@
 
 List of endpoints exposed by the service
 
-## Setup
+### Getting Started
 
 Step by step instructions on how to get the code setup locally. This may include:
 
-### Dependencies
+- clone this repository: `git clone git@github.com:abayo-luc/readIt.git`
+- Change directory: `cd readIt`
 
-List of libraries, tools, etc needed (e.g. yarn, node.js, python, etc)
+## Update PRIVATE section in sample.env file and rename it to '.env'
 
-### Getting Started
+`cp sample.env ./.env`
 
-List of steps to get started (e.g. clone repo, submodule, .env file, etc)
+## Install the dependencies
 
-### Run The Service
+`yarn`
 
-List of steps to run the service (e.g. docker commands)
+## Start the application
 
-### Microservices
-
-List out the microservices if any that this repo uses
+`yarn server`
 
 ## Testing
 
-Step by step instructions on how to run the tests so that the developer can be sure they've set up the code correctly
+`yarn test`
 
 ## Contribute
 
