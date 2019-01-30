@@ -4,11 +4,11 @@ export default (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
-      text: DataTypes.STRING
+      text: DataTypes.STRING,
     },
-    {}
+    {},
   );
-  Comment.associate = function(models) {
+  Comment.associate = function (models) {
     // associations can be defined here
   };
   return Comment;
