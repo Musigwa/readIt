@@ -14,4 +14,4 @@ if (app.get('env') === 'development') app.use(morgan('dev'));
 
 app.use('/api/v1/', routers);
 
-module.exports = app;
+export default app;
