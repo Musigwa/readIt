@@ -4,9 +4,12 @@ import passport from 'passport';
 import dotenv from 'dotenv';
 import poassportConfig from './middleware/passport';
 // bring in the routers
+import dotenv from 'dotenv';
 import routers from './routes';
 // initialize the env variables
+
 dotenv.config();
+
 const app = express();
 // passport config
 app.use(passport.initialize());
@@ -20,4 +23,4 @@ app.get('/', (req, res) => res.status(200)
 
 app.use('/api/v1/', routers);
 
-module.exports = app;
+export default app;

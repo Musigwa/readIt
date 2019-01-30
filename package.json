@@ -10,8 +10,7 @@
     "devenv": "NODE_ENV=development",
     "server": "clear && DEBUG=readit:* yarn devenv nodemon --exec babel-node server.js",
     "build": "babel server -d server/dist",
-    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
-    "test": "jest tests --coverage --detectOpenHandles"
+    "test": "clear && jest babel-register tests/* --forceExit --detectOpenHandles --coverage"
   },
   "engines": {
     "node": "10.15.0"
