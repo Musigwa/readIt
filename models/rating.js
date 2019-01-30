@@ -4,11 +4,11 @@ export default (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
-      rating: DataTypes.INTEGER
+      rating: DataTypes.INTEGER,
     },
-    {}
+    {},
   );
-  Rating.associate = function(models) {
+  Rating.associate = function (models) {
     // associations can be defined here
   };
   return Rating;

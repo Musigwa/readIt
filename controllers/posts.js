@@ -1,14 +1,15 @@
-const Posts = require('../models').Post;
-const Users = require('../models').User;
+import models from '../models';
 
-export default class Post {
+const { User, Post } = models;
+
+export default class PostController {
   static async create(req, res) {
     try {
       const {
         title, content, userId, views, mediaPath,
       } = req.body;
       // fetch user
-      const UserResponse = await Users.findOne({
+      const UserResponse = await User.findOne({
         where: {
           id: userId,
         },
@@ -16,7 +17,7 @@ export default class Post {
       if (!UserResponse) {
         return res.status(404).send({ message: 'User not found', status: 404 });
       }
-      const { dataValues } = await Posts.create({
+      const { dataValues } = await Post.create({
         title,
         content,
         userId: UserResponse.dataValues.id,
@@ -29,7 +30,7 @@ export default class Post {
         post: dataValues,
       });
     } catch (error) {
-      return res.status(400).send({ message: error, status: 400 });
+      return res.status(500).send({ message: error.stack, status: 500 });
     }
   }
 }
