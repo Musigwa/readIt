@@ -13,6 +13,7 @@ export default (sequelize, DataTypes) => {
   );
   Post.associate = models => {
     Post.belongsTo(models.User);
+    Post.hasMany(models.Rating);
   };
   return Post;
 };

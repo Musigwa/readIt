@@ -11,7 +11,7 @@ export default class UserController {
           firstName,
           lastName,
           email,
-          password: hash
+          password: hash,
         });
         user.password = '************';
         res.json({ user });
@@ -26,7 +26,7 @@ export default class UserController {
   static async getAllUser(req, res) {
     try {
       const users = await User.findAll({
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
       res.json({ users });
     } catch (err) {
@@ -39,9 +39,9 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id
+          id,
         },
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
       res.json({ user });
     } catch (err) {
@@ -54,14 +54,14 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id: req.params.id
+          id: req.params.id,
         },
         returning: true,
-        plain: true
+        plain: true,
       });
       const updatedUser = await user.update({
         firstName,
-        lastName
+        lastName,
       });
       updatedUser.password = '******';
 
@@ -70,6 +70,4 @@ export default class UserController {
       console.log(err);
     }
   }
-
-  //delete user not sure!
 }
