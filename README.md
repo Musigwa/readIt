@@ -13,19 +13,26 @@ List of endpoints exposed by the service
 
 ## Setup
 
-Step by step instructions on how to get the code setup locally. This may include:
+### Get the latest version
 
-### Dependencies
+```https://github.com/abayo-luc/readIt.git```
 
-List of libraries, tools, etc needed (e.g. yarn, node.js, python, etc)
+### Change directory
 
-### Getting Started
+```cd readit```
 
-List of steps to get started (e.g. clone repo, submodule, .env file, etc)
+### Update the environments variables in sample.env file and rename it to '.env'
 
-### Run The Service
+```cp sample.env .env```
 
-List of steps to run the service (e.g. docker commands)
+### Install the dependencies 
+
+```npm i```
+
+### Start the application
+
+```npm start```
+
 
 ### Microservices
 
