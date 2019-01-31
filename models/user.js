@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable arrow-parens */
 export default (sequelize, DataTypes) => {
   const User = sequelize.define(

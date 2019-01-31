@@ -1,9 +1,6 @@
-# readIt
-## Repo Name [codeclimate badge] [testing badge]
+# READIT NodeJs/Express application
 
-1 sentence tag line
-
-# Description
+## Description
 
 3-5 sentences describing the code and what it's purpose is
 
@@ -11,7 +8,7 @@
 
 List of endpoints exposed by the service
 
-## Setup
+### Getting Started
 
 ### Get the latest version
 
@@ -23,24 +20,19 @@ List of endpoints exposed by the service
 
 ### Update the environments variables in sample.env file and rename it to '.env'
 
-```cp sample.env .env```
+```mv sample.env .env```
 
 ### Install the dependencies 
 
-```npm i```
+```yarn```
 
 ### Start the application
 
-```npm start```
+````yarn server````
 
+### Testing
 
-### Microservices
-
-List out the microservices if any that this repo uses
-
-## Testing
-
-Step by step instructions on how to run the tests so that the developer can be sure they've set up the code correctly
+`yarn test`
 
 ## Contribute
 

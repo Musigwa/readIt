@@ -1,5 +1,5 @@
 {
-  "name": "ReadIT",
+  "name": "read-it",
   "version": "1.0.0",
   "description": "Endpoint API for ReadIT application",
   "main": "index.js",
@@ -8,10 +8,9 @@
   "scripts": {
     "testenv": "NODE_ENV=test",
     "devenv": "NODE_ENV=development",
-    "server": "clear && DEBUG=readit:* yarn devenv nodemon --exec babel-node index.js",
+    "server": "clear && DEBUG=readit:* yarn devenv nodemon --exec babel-node server.js",
     "build": "babel server -d server/dist",
-    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
-    "test": "clear && yarn testenv jest --coverage"
+    "test": "clear && jest babel-register tests/* --forceExit --detectOpenHandles --coverage"
   },
   "engines": {
     "node": ">=10.13.0"
@@ -26,7 +25,7 @@
     "babel-preset-env": "^1.7.0",
     "bcrypt": "^3.0.3",
     "cross-env": "5.2.0",
-    "debug": "^4.1.0",
+    "debug": "^4.1.1",
     "dotenv": "^6.2.0",
     "express": "4.16.4",
     "joi": "^14.0.4",
@@ -43,6 +42,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.0.0",
     "coveralls": "^3.0.2",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -50,6 +50,8 @@
     "jest": "^24.0.0",
     "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^4.7.1"
+    "prettier-eslint-cli": "^4.7.1",
+    "superagent": "^4.1.0",
+    "supertest": "^3.4.2"
   }
 }

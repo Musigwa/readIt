@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import models from '../models';
 
 const { User } = models;
+
 export default class UserController {
   static async create(req, res) {
     const { firstName, lastName, email, password } = req.body;
@@ -70,4 +71,6 @@ export default class UserController {
       console.log(err);
     }
   }
+
+  // delete user not sure!
 }
