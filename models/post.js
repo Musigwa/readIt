@@ -9,11 +9,12 @@ export default (sequelize, DataTypes) => {
       views: DataTypes.INTEGER,
       mediaPath: DataTypes.STRING,
     },
-    {},
+    {}
   );
   Post.associate = models => {
     Post.belongsTo(models.User);
     Post.hasMany(models.Rating);
+    Post.hasMany(models.Comment);
   };
   return Post;
 };
