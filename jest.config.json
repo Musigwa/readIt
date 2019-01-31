@@ -1,0 +1,6 @@
+{
+  "name": "ReadIT",
+  "jest": {
+    "verbose": true
+  }
+}
