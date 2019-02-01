@@ -1,13 +1,25 @@
 import bcrypt from 'bcrypt';
 import models from '../models';
+import { checkValues } from '../helpers/validators';
 
 const { User } = models;
 
 export default class UserController {
   static async create(req, res) {
+    const { isValid, errors } = checkValues(req.body, [
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+    ]);
+    if (!isValid) {
+      return res.status(400).json({ errors });
+    }
+
     const {
-      firstName, lastName, email, password,
-    } = req.body;
+ firstName, lastName, email, password 
+} = req.body;
+
     bcrypt.hash(password, 10, async (err, hash) => {
       try {
         const user = await User.create({
@@ -18,10 +30,16 @@ export default class UserController {
         });
         user.password = '************';
         res.json({ user });
-      } catch (error) {
-        const { fields, errors } = error;
-        console.log(error);
-        res.json({ fields, message: errors ? errors[0].message : 'Unknown error' });
+      } catch (response) {
+        if (response.errors[0]) {
+          const { message } = response.errors[0];
+          message === 'email must be unique'
+            ? (errors.message = 'User already exist')
+            : (errors.message = message);
+        } else {
+          errors.message = 'Unknown error';
+        }
+        res.status(400).json({ errors });
       }
     });
   }
@@ -39,6 +57,7 @@ export default class UserController {
 
   static async getOneUser(req, res) {
     const { id } = req.params;
+    const errors = {};
     try {
       const user = await User.findOne({
         where: {
@@ -46,6 +65,10 @@ export default class UserController {
         },
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
+      if (!user) {
+        errors.message = 'User not found';
+        return res.status(404).json({ errors });
+      }
       res.json({ user });
     } catch (err) {
       console.log(err);
@@ -54,21 +77,26 @@ export default class UserController {
 
   static async update(req, res) {
     const { firstName, lastName } = req.body;
+    const errors = {};
     try {
       const user = await User.findOne({
         where: {
-          id: req.params.id,
+          id: parseFloat(req.params.id),
         },
         returning: true,
         plain: true,
       });
+      if (!user) {
+        errors.message = 'User not found';
+        return res.status(404).json({ errors });
+      }
       const updatedUser = await user.update({
         firstName,
         lastName,
       });
       updatedUser.password = '******';
 
-      res.json({ user: updatedUser });
+      return res.json({ user: updatedUser });
     } catch (err) {
       console.log(err);
     }
