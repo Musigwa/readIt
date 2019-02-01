@@ -12,7 +12,7 @@ let userToken;
 let userId;
 
 describe('/USER', () => {
-  beforeAll(async (done) => {
+  beforeAll(async done => {
     request(app)
       .post('/api/v1/users')
       .send({
@@ -24,7 +24,7 @@ describe('/USER', () => {
         done();
       });
   });
-  beforeEach((done) => {
+  beforeEach(done => {
     request(app)
       .post('/api/v1/auth/login')
       .send({
@@ -37,12 +37,12 @@ describe('/USER', () => {
         done();
       });
   });
-  afterAll(async (done) => {
+  afterAll(async done => {
     await db.User.destroy({ truncate: true, cascade: true });
     done();
   });
   describe('/POST user', () => {
-    test('It should return created user', (done) => {
+    test('It should return created user', done => {
       request(app)
         .post('/api/v1/users')
         .send({
@@ -61,7 +61,7 @@ describe('/USER', () => {
           done();
         });
     });
-    test('It should return user already exist error', (done) => {
+    test('It should return user already exist error', done => {
       request(app)
         .post('/api/v1/users')
         .send({
@@ -73,7 +73,7 @@ describe('/USER', () => {
           done();
         });
     });
-    test('It should return invalid email error', (done) => {
+    test('It should return invalid email error', done => {
       jest.setTimeout(100);
       request(app)
         .post('/api/v1/users')
@@ -87,7 +87,7 @@ describe('/USER', () => {
           done();
         });
     });
-    test('It should return error', (done) => {
+    test('It should return error', done => {
       request(app)
         .post('/api/v1/users')
         .send({
@@ -103,7 +103,7 @@ describe('/USER', () => {
     });
   });
   describe('/GET users', () => {
-    test('It should return unauthorized', (done) => {
+    test('It should return unauthorized', done => {
       request(app)
         .get('/api/v1/users')
         .end((err, res) => {
@@ -111,8 +111,8 @@ describe('/USER', () => {
           done();
         });
     });
-
-    test('It should return array of users', (done) => {
+    // why some test are failing where are they??
+    test('It should return array of users', done => {
       request(app)
         .get('/api/v1/users')
         .set('Authorization', `Bearer ${userToken}`)
@@ -125,7 +125,7 @@ describe('/USER', () => {
   });
 
   describe('/GET one user', () => {
-    test('It should return unauthorized', (done) => {
+    test('It should return unauthorized', done => {
       request(app)
         .get(`/api/v1/users/${userId}`)
         .end((err, res) => {
@@ -134,7 +134,7 @@ describe('/USER', () => {
         });
     });
 
-    test('It should return user object', (done) => {
+    test('It should return user object', done => {
       request(app)
         .get(`/api/v1/users/${userId}`)
         .set('Authorization', `Bearer ${userToken}`)
@@ -146,7 +146,7 @@ describe('/USER', () => {
           done();
         });
     });
-    test('It should return user object', (done) => {
+    test('It should return user object', done => {
       request(app)
         .get('/api/v1/users/39898')
         .set('Authorization', `Bearer ${userToken}`)
@@ -159,7 +159,7 @@ describe('/USER', () => {
   });
 
   describe('/UPDATE user', () => {
-    test('It will return Unthorized due to missing token', (done) => {
+    test('It will return Unthorized due to missing token', done => {
       request(app)
         .put(`/api/v1/users/${userId}`)
         .send({
@@ -172,7 +172,7 @@ describe('/USER', () => {
         });
     });
 
-    test('It will return updated user', (done) => {
+    test('It will return updated user', done => {
       request(app)
         .put(`/api/v1/users/${userId}`)
         .set('Authorization', `Bearer ${userToken}`)
@@ -188,7 +188,7 @@ describe('/USER', () => {
         });
     });
 
-    test('It will return Unthorized for trying upadating other user', (done) => {
+    test('It will return Unthorized for trying upadating other user', done => {
       request(app)
         .put('/api/v1/users/5663')
         .set('Authorization', `Bearer ${userToken}`)

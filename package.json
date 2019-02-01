@@ -10,7 +10,7 @@
     "devenv": "NODE_ENV=development",
     "server": "clear && DEBUG=readit:* yarn devenv nodemon --exec babel-node server.js",
     "build": "babel server -d server/dist",
-    "test": "clear && jest babel-register tests/* --forceExit --detectOpenHandles --coverage"
+    "test": "clear && jest babel-register tests/* --forceExit --detectOpenHandles"
   },
   "engines": {
     "node": ">=10.13.0"
