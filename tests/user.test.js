@@ -6,7 +6,7 @@ const damieUser = {
   firstName: 'Luc',
   lastName: 'Abayo',
   password: 'password',
-  email: 'luc.bayo@gmail.com',
+  email: 'luc.bayo@gmail.com'
 };
 let userToken;
 let userId;
@@ -16,7 +16,7 @@ describe('/USER', () => {
     request(app)
       .post('/api/v1/users')
       .send({
-        ...damieUser,
+        ...damieUser
       })
       .end((err, res) => {
         const { id } = res.body.user;
@@ -29,7 +29,7 @@ describe('/USER', () => {
       .post('/api/v1/auth/login')
       .send({
         email: damieUser.email,
-        password: damieUser.password,
+        password: damieUser.password
       })
       .end((err, res) => {
         const { token } = res.body;
@@ -49,7 +49,7 @@ describe('/USER', () => {
           firstName: 'Luc',
           lastName: 'Abayo',
           password: 'password',
-          email: 'luc.abayo@andela.com',
+          email: 'luc.abayo@andela.com'
         })
         .end((err, res) => {
           expect(res.status).toBe(200);
@@ -65,7 +65,7 @@ describe('/USER', () => {
       request(app)
         .post('/api/v1/users')
         .send({
-          ...damieUser,
+          ...damieUser
         })
         .end((err, res) => {
           expect(res.status).toBe(400);
@@ -79,7 +79,7 @@ describe('/USER', () => {
         .post('/api/v1/users')
         .send({
           ...damieUser,
-          email: 'luc.bakjdf',
+          email: 'luc.bakjdf'
         })
         .end((err, res) => {
           expect(res.status).toBe(400);
@@ -91,7 +91,7 @@ describe('/USER', () => {
       request(app)
         .post('/api/v1/users')
         .send({
-          email: 'jean.abayo@gmail.com',
+          email: 'jean.abayo@gmail.com'
         })
         .end((err, res) => {
           expect(res.status).toBe(400);
@@ -164,7 +164,7 @@ describe('/USER', () => {
         .put(`/api/v1/users/${userId}`)
         .send({
           firstName: 'Silas',
-          lastName: 'Gasasira',
+          lastName: 'Gasasira'
         })
         .end((error, res) => {
           expect(res.status).toBe(401);
@@ -178,7 +178,7 @@ describe('/USER', () => {
         .set('Authorization', `Bearer ${userToken}`)
         .send({
           firstName: 'Silas',
-          lastName: 'Gasasira',
+          lastName: 'Gasasira'
         })
         .end((error, res) => {
           expect(res.status).toBe(200);
@@ -194,7 +194,7 @@ describe('/USER', () => {
         .set('Authorization', `Bearer ${userToken}`)
         .send({
           firstName: 'Silas',
-          lastName: 'Gasasira',
+          lastName: 'Gasasira'
         })
         .end((error, res) => {
           expect(res.status).toBe(401);
