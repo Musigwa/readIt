@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import User from '../controllers/users';
+import { userAuthorization } from '../helpers/validators';
 
 const userRouters = Router();
 
@@ -12,6 +13,11 @@ userRouters
     passport.authenticate('jwt', { session: false }),
     User.getOneUser,
   )
-  .put('/users/:id', passport.authenticate('jwt', { session: false }), User.update);
+  .put(
+    '/users/:id',
+    passport.authenticate('jwt', { session: false }),
+    userAuthorization,
+    User.update,
+  );
 
 export default userRouters;

@@ -3,6 +3,7 @@ import app from '../index';
 
 describe('POST api/v1/posts', () => {
   test('It should respond with an object of post', async () => {
+    jest.setTimeout(50000);
     const post = await request(app)
       .post('/api/v1/posts')
       .send({
@@ -16,6 +17,7 @@ describe('POST api/v1/posts', () => {
     expect(post.body.status).toBe(201);
   });
   test('It should respond with User not found', async () => {
+    jest.setTimeout(50000);
     const post = await request(app)
       .post('/api/v1/posts')
       .send({
@@ -25,6 +27,6 @@ describe('POST api/v1/posts', () => {
         views: 0,
         mediaPath: 'fabricee',
       });
-    expect(post.body.status).toBe(404);
+    expect(post.status).toBe(404);
   });
 });

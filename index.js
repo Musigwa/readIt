@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import express from 'express';
 import morgan from 'morgan';
 import passport from 'passport';
