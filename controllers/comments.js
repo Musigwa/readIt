@@ -16,8 +16,43 @@ export default class Comments {
           .then((response) => {
             res.status(201).json(response);
           })
-          .catch(error => res.status(500).json({ message: 'error occured', error }));
+          .catch(error => res.status(400).json({ message: 'error occured', error }));
       }
     });
+  }
+
+  static async update(req, res) {
+    const id = req.params.commentId;
+    const { text } = req.body;
+    try {
+      const newComment = await Comment.update({ text }, { where: { id } });
+      res.status(201).json({ message: 'Comment updated successfully', newComment });
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  }
+
+  static async delete(req, res) {
+    const id = req.params.commentId;
+    try {
+      const deletedComment = await Comment.destroy({
+        where: { id },
+      });
+      res
+        .status(200)
+        .json({ message: 'Comment deleted successfully', deletedComment });
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  }
+
+  static async fetchComments(req, res) {
+    const { postId } = req.params;
+    try {
+      const comments = await Comment.findAll({ postId });
+      res.status(200).json({ comments });
+    } catch (error) {
+      res.status(400).json(error);
+    }
   }
 }
