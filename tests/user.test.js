@@ -204,3 +204,5 @@ describe('/USER', () => {
     });
   });
 });
+
+export { userId, userToken };
