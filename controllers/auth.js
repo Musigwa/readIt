@@ -16,7 +16,7 @@ export default class AuthController {
         },
       });
       if (!user) {
-        return res.status(404).json({ message: 'user not found' });
+        return res.status(400).json({ message: 'Invalid email or password' });
       }
 
       return bcrypt.compare(password, user.password, (error, match) => {
@@ -31,6 +31,8 @@ export default class AuthController {
             { expiresIn: '1d' },
             (err, token) => res.json({ token }),
           );
+        } else {
+          res.status(400).json({ message: 'Invalid email or password' });
         }
       });
     } catch (error) {
