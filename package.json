@@ -13,7 +13,7 @@
     "test": "clear && jest babel-register tests/* --forceExit --detectOpenHandles --coverage"
   },
   "engines": {
-    "node": "10.15.0"
+    "node": ">= 6.0.0"
   },
   "repository": {
     "type": "git",
@@ -51,7 +51,6 @@
     "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1",
-    "superagent": "^4.1.0",
     "supertest": "^3.4.2"
   }
 }
