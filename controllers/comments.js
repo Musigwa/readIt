@@ -10,13 +10,13 @@ export default class Comments {
     const { text } = req.body;
     joi.validate({ postId, userId, text }, comment, (err, value) => {
       if (err) {
-        res.status(400).json(err);
+        res.status(500).json(err);
       } else {
         Comment.create({ postId, userId, text })
           .then((response) => {
             res.status(201).json(response);
           })
-          .catch(error => res.status(400).json({ message: 'error occured', error }));
+          .catch(error => res.status(500).json({ message: 'error occured', error }));
       }
     });
   }
@@ -28,7 +28,7 @@ export default class Comments {
       const newComment = await Comment.update({ text }, { where: { id } });
       res.status(201).json({ message: 'Comment updated successfully', newComment });
     } catch (error) {
-      res.status(400).json(error);
+      res.status(500).json(error);
     }
   }
 
@@ -42,7 +42,7 @@ export default class Comments {
         .status(200)
         .json({ message: 'Comment deleted successfully', deletedComment });
     } catch (error) {
-      res.status(400).json(error);
+      res.status(500).json(error);
     }
   }
 
@@ -52,7 +52,7 @@ export default class Comments {
       const comments = await Comment.findAll({ postId });
       res.status(200).json({ comments });
     } catch (error) {
-      res.status(400).json(error);
+      res.status(500).json(error);
     }
   }
 }
