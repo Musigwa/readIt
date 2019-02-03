@@ -10,23 +10,27 @@ const options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.SECRET_OR_KEY;
 
-export default (passport) => {
+export default passport => {
   passport.use(
     new Strategy(options, async (jwtPayload, done) => {
       try {
         const user = await User.findOne({
           where: {
-            id: jwtPayload.id,
+            id: jwtPayload.id
           },
-          attributes: ['id', 'firstName', 'lastName', 'email'],
+          attributes: ['id', 'firstName', 'lastName', 'email']
         });
         if (user) {
           return done(null, user);
         }
-        return done(null, false);
+        return done(null, false, {
+          message: 'User not found'
+        });
       } catch (error) {
-        return done(error, false);
+        return done(error, false, {
+          message: 'Please provide a token to perform this action'
+        });
       }
-    }),
+    })
   );
 };

@@ -146,7 +146,7 @@ afterAll(async done => {
 
 describe('All test related to rating ', () => {
   jest.setTimeout(50000);
-  test('cannot rate a post if there is no token', cannotPostIfNoToken);
+  test.only('cannot rate a post if there is no token', cannotPostIfNoToken);
   test('cannot rate if post id is invalid ', cannotifPostIdInvalid);
   test('cannot edit rating if post not found ', cannotifEditIfNotFound);
   test('cannot rate if the rating is undefined', cannotIfRateUndefinded);
