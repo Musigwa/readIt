@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import models from '../models';
 
-const { User } = models;
+const { User, Post } = models;
 
 export default class UserController {
   static async create(req, res) {
@@ -74,5 +74,20 @@ export default class UserController {
     }
   }
 
+  static getMyPosts(req, res) {
+    const { id } = req.params;
+    Post.findAll({ where: { userId: id } }).then((dataValues) => {
+      if (!dataValues) {
+        return res.status(404).send({ message: 'The post does not exist', status: 404 });
+      }
+      return res.status(200).send({
+        message: 'A post fetched successfully',
+        status: 200,
+        post: dataValues,
+      });
+    }).catch((error) => {
+      res.status(500).send({ message: error, status: 500 });
+    });
+  }
   // delete user not sure!
 }

@@ -1,4 +1,3 @@
-/* eslint-disable arrow-parens */
 export default (sequelize, DataTypes) => {
   const Post = sequelize.define(
     'Post',
@@ -11,8 +10,8 @@ export default (sequelize, DataTypes) => {
     },
     {},
   );
-  Post.associate = models => {
-    Post.belongsTo(models.User);
+  Post.associate = (models) => {
+    Post.belongsTo(models.User, { foreignKey: 'userId' });
   };
   return Post;
 };

@@ -12,6 +12,7 @@ userRouters
     passport.authenticate('jwt', { session: false }),
     User.getOneUser,
   )
-  .put('/users/:id', passport.authenticate('jwt', { session: false }), User.update);
+  .put('/users/:id', passport.authenticate('jwt', { session: false }), User.update)
+  .get('/users/:id/posts', User.getMyPosts);
 
 export default userRouters;

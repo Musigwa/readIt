@@ -4,7 +4,6 @@ import passport from 'passport';
 import dotenv from 'dotenv';
 import poassportConfig from './middleware/passport';
 // bring in the routers
-import dotenv from 'dotenv';
 import routers from './routes';
 // initialize the env variables
 
