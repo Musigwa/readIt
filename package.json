@@ -13,11 +13,7 @@
     "test": "clear && jest babel-register tests/* --forceExit --detectOpenHandles"
   },
   "engines": {
-<<<<<<< HEAD
     "node": ">=10.13.0"
-=======
-    "node": ">= 6.0.0"
->>>>>>> develop
   },
   "repository": {
     "type": "git",
