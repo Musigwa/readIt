@@ -77,7 +77,7 @@ export default class UserController {
   static getMyPosts(req, res) {
     const { id } = req.params;
     Post.findAll({ where: { userId: id } }).then((dataValues) => {
-      if (!dataValues) {
+      if (dataValues.length === 0) {
         return res.status(404).send({ message: 'The post does not exist', status: 404 });
       }
       return res.status(200).send({

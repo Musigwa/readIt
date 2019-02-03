@@ -50,7 +50,7 @@ export default class PostController {
       });
 
       if (!postResponse) {
-        return res.status(404).send({ message: 'The post does not exist' });
+        return res.status(404).send({ message: 'The post does not exist', status: 404 });
       }
       const { dataValues } = await postResponse.update({
         title, content, views, mediaPath, updatedAt: moment().format(),
