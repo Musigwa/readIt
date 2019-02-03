@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
 import request from 'supertest';
 import app from '../index';
 import db from '../models';
+import jwt from 'jsonwebtoken';
 
+dotenv.config();
 let post;
 let user;
 
@@ -39,6 +42,15 @@ const createUser = async done => {
     })
     .end((err, res) => {
       ({ user } = res.body);
+      jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.SECRET_OR_KEY,
+        { expiresIn: '1d' },
+        (err, token) => {
+          user.token = token;
+          console.log(user);
+        }
+      );
       expect(user).toBeDefined();
       done();
     });
@@ -56,6 +68,8 @@ const cannotPostIfNoToken = done => {
 const cannotifPostIdInvalid = done => {
   request(app)
     .post(`/api/v1/post/400009/rating`)
+    .set('Authorization', `Bearer ${user.token}`)
+    .send({ rating: 4 })
     .end((err, res) => {
       expect(res.status).toBe(404);
       expect(res.body.message).toBe('Post you are looking for cannot be found');
@@ -65,6 +79,8 @@ const cannotifPostIdInvalid = done => {
 const cannotifEditIfNotFound = done => {
   request(app)
     .put(`/api/v1/post/400009/rating`)
+    .set('Authorization', `Bearer ${user.token}`)
+    .send({ rating: 4 })
     .end((err, res) => {
       expect(res.status).toBe(404);
       expect(res.body.message).toBe('Post you are looking for cannot be found');
@@ -75,7 +91,7 @@ const cannotIfRateUndefinded = done => {
   request(app)
     .post(`/api/v1/post/${post.id}/rating`)
     .set('Authorization', `Bearer ${user.token}`)
-    .send({ userId: user.id, postId: post.id, rating: undefined })
+    .send({ postId: post.id, rating: undefined })
     .end((err, res) => {
       expect(res.status).toBe(400);
       expect(res.body.message).toBe('Please provide a valid rating ');
@@ -87,7 +103,7 @@ const cannotIfRateSupTo5 = done => {
   request(app)
     .post(`/api/v1/post/${post.id}/rating`)
     .set('Authorization', `Bearer ${user.token}`)
-    .send({ userId: user.id, postId: post.id, rating: 10 })
+    .send({ postId: post.id, rating: 10 })
     .end((err, res) => {
       expect(res.status).toBe(400);
       expect(res.body.message).toBe('Please provide a valid rating ');
@@ -146,10 +162,10 @@ afterAll(async done => {
 
 describe('All test related to rating ', () => {
   jest.setTimeout(50000);
-  test.only('cannot rate a post if there is no token', cannotPostIfNoToken);
+  test('cannot rate a post if there is no token', cannotPostIfNoToken);
   test('cannot rate if post id is invalid ', cannotifPostIdInvalid);
   test('cannot edit rating if post not found ', cannotifEditIfNotFound);
-  test('cannot rate if the rating is undefined', cannotIfRateUndefinded);
+  test.only('cannot rate if the rating is undefined', cannotIfRateUndefinded);
   test('cannot rate if the rating is less than 1 and more than 5', cannotIfRateSupTo5);
   test('can rate', canRate);
   test('can get all rating ', canGetAllRating);

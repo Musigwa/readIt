@@ -10,7 +10,7 @@ export default class UserController {
       'firstName',
       'lastName',
       'email',
-      'password',
+      'password'
     ]);
     if (!isValid) {
       return res.status(400).json({ errors });
@@ -24,7 +24,7 @@ export default class UserController {
           firstName,
           lastName,
           email,
-          password: hash,
+          password: hash
         });
         user.password = '************';
         res.json({ user });
@@ -45,7 +45,7 @@ export default class UserController {
   static async getAllUser(req, res) {
     try {
       const users = await User.findAll({
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
       });
       res.json({ users });
     } catch (err) {
@@ -59,9 +59,9 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id,
+          id
         },
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
       });
       if (!user) {
         errors.message = 'User not found';
@@ -79,10 +79,10 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id: parseFloat(req.params.id),
+          id: parseFloat(req.params.id)
         },
         returning: true,
-        plain: true,
+        plain: true
       });
       if (!user) {
         errors.message = 'User not found';
@@ -90,7 +90,7 @@ export default class UserController {
       }
       const updatedUser = await user.update({
         firstName,
-        lastName,
+        lastName
       });
       updatedUser.password = '******';
 
