@@ -11,6 +11,10 @@ const ratingOne = joi.object().keys({
     .integer()
     .required()
     .label('The post id should be an integer'),
+  ratingId: joi
+    .number()
+    .integer()
+    .label('Provide a valida raking id'),
   rating: joi
     .number()
     .integer()

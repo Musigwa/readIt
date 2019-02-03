@@ -17,4 +17,5 @@ ratingRouters.use((req, res, next) => {
 });
 ratingRouters.post('/post/:id/rating', RatingController.create);
 ratingRouters.get('/post/:id/rating', RatingController.getAll);
+ratingRouters.put('/post/:postId/rating/:ratingId', RatingController.update);
 export default ratingRouters;

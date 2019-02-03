@@ -15,9 +15,11 @@ class RatingController {
         next(err);
       } else {
         Rating.create({ postId, userId, rating })
-          .then(response => {
-            if (response._options.isNewRecord) {
-              res.status(201).json({ message: 'Post rated successfully' });
+          .then(result => {
+            if (result._options.isNewRecord) {
+              res
+                .status(201)
+                .json({ message: 'Post rated successfully', rating: result.dataValues });
             }
           })
           .catch(error => {
@@ -43,7 +45,7 @@ class RatingController {
       if (err) {
         next(err);
       } else {
-        // Ps: user raw query because using findOne was causing errors because of table naming
+        // Ps: user raw query because using findOne was causing errors because of table aming
         sequelize
           .query('SELECT * FROM "Ratings"  WHERE "postId" =:postId', {
             replacements: { postId },
@@ -51,6 +53,32 @@ class RatingController {
           })
           .then(result => {
             res.status(200).json({ ratings: result });
+          })
+          .catch(error => {
+            console.log(error);
+            res.status(500).json({ message: 'Please Try again later' });
+          });
+      }
+    });
+  }
+
+  static update(req, res, next) {
+    const postId = parseInt(req.params.postId, 10);
+    const ratingId = parseInt(req.params.ratingId, 10);
+    const userId = req.user.id;
+    const { rating } = req.body;
+
+    joi.validate({ postId, userId, rating, ratingId }, ratingOne, (err, value) => {
+      if (err) {
+        next(err);
+      } else {
+        Rating.update({ rating }, { where: { id: ratingId } })
+          .then(result => {
+            if (result[0]) {
+              res.status(200).json({ message: 'Post rating edited successfully' });
+            } else {
+              res.status(404).json({ message: 'Rating  you are looking for cannot be found' });
+            }
           })
           .catch(error => {
             console.log(error);
