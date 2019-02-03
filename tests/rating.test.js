@@ -29,7 +29,7 @@ const createPost = async done => {
       ...dummyPost
     })
     .end((err, res) => {
-      post = res.body;
+      ({ post } = res.body);
       done();
     });
 };
@@ -48,7 +48,6 @@ const createUser = async done => {
         { expiresIn: '1d' },
         (err, token) => {
           user.token = token;
-          console.log(user);
         }
       );
       expect(user).toBeDefined();
@@ -91,10 +90,10 @@ const cannotIfRateUndefinded = done => {
   request(app)
     .post(`/api/v1/post/${post.id}/rating`)
     .set('Authorization', `Bearer ${user.token}`)
-    .send({ postId: post.id, rating: undefined })
+    .send({ rating: undefined })
     .end((err, res) => {
       expect(res.status).toBe(400);
-      expect(res.body.message).toBe('Please provide a valid rating ');
+      expect(res.body.message).toBe('Please provide a valid rating');
       done();
     });
 };
@@ -106,7 +105,7 @@ const cannotIfRateSupTo5 = done => {
     .send({ postId: post.id, rating: 10 })
     .end((err, res) => {
       expect(res.status).toBe(400);
-      expect(res.body.message).toBe('Please provide a valid rating ');
+      expect(res.body.message).toBe('Please provide a valid rating');
       done();
     });
 };
@@ -127,7 +126,7 @@ const canGetAllRating = done => {
     .set('Authorization', `Bearer ${user.token}`)
     .end((err, res) => {
       expect(res.status).toBe(200);
-      expect(res.body.message).toBe('All post retrieved successfully');
+      expect(res.body.message).toBe('All post rating retrieved successfully');
       done();
     });
 };
@@ -162,12 +161,12 @@ afterAll(async done => {
 
 describe('All test related to rating ', () => {
   jest.setTimeout(50000);
-  test('cannot rate a post if there is no token', cannotPostIfNoToken);
-  test('cannot rate if post id is invalid ', cannotifPostIdInvalid);
+  test.only('cannot rate a post if there is no token', cannotPostIfNoToken);
+  test.only('cannot rate if post id is invalid ', cannotifPostIdInvalid);
   test('cannot edit rating if post not found ', cannotifEditIfNotFound);
   test.only('cannot rate if the rating is undefined', cannotIfRateUndefinded);
-  test('cannot rate if the rating is less than 1 and more than 5', cannotIfRateSupTo5);
-  test('can rate', canRate);
+  test.only('cannot rate if the rating is less than 1 and more than 5', cannotIfRateSupTo5);
+  test.only('can rate', canRate);
   test('can get all rating ', canGetAllRating);
 
   test('can edit rating ', canEditARating);
