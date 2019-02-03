@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import bcrpty from 'bcrypt';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
@@ -19,7 +19,7 @@ export default class AuthController {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      return bcrpty.compare(password, user.password, (error, match) => {
+      return bcrypt.compare(password, user.password, (error, match) => {
         if (match) {
           const payload = {
             id: user.id,
