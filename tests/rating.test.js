@@ -145,17 +145,7 @@ const canEditARating = done => {
       done();
     });
 };
-const canDeleteRating = done => {
-  request(app)
-    .delete(`/api/v1/post/${post.id}/rating`)
-    .set('Authorization', `Bearer ${user.token}`)
-    .end((err, res) => {
-      console.log(res);
-      expect(res.status).toBe(200);
-      expect(res.body.message).toBe('Post has been deleted');
-      done();
-    });
-};
+
 beforeAll(createUser);
 beforeAll(createPost);
 afterAll(async done => {
@@ -168,10 +158,10 @@ describe('All test related to rating ', () => {
   jest.setTimeout(50000);
   test('cannot rate a post if there is no token', cannotPostIfNoToken);
   test('cannot rate if post id is invalid ', cannotifPostIdInvalid);
-  test.only('cannot edit rating if post not found ', cannotifEditIfNotFound);
+  test('cannot edit rating if post not found ', cannotifEditIfNotFound);
   test('cannot rate if the rating is undefined', cannotIfRateUndefinded);
   test('cannot rate if the rating is less than 1 and more than 5', cannotIfRateSupTo5);
-  test.only('can rate', canRate);
+  test('can rate', canRate);
   test('can get all rating ', canGetAllRating);
-  test.only('can edit rating ', canEditARating);
+  test('can edit rating ', canEditARating);
 });
