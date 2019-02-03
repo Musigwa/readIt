@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-const rating = joi.object().keys({
+const ratingOne = joi.object().keys({
   userId: joi
     .number()
     .integer()
@@ -19,4 +19,16 @@ const rating = joi.object().keys({
     .required()
     .label('Please provide a valid rating')
 });
-export default rating;
+const ratingAll = joi.object().keys({
+  userId: joi
+    .number()
+    .integer()
+    .required()
+    .label('Please Provide a valid user id'),
+  postId: joi
+    .number()
+    .integer()
+    .required()
+    .label('The post id should be an integer')
+});
+export { ratingOne, ratingAll };

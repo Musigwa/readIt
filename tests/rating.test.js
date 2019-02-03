@@ -125,8 +125,9 @@ const canGetAllRating = done => {
     .get(`/api/v1/post/${post.id}/rating`)
     .set('Authorization', `Bearer ${user.token}`)
     .end((err, res) => {
+      console.log(res.body);
       expect(res.status).toBe(200);
-      expect(res.body.message).toBe('All post rating retrieved successfully');
+      expect(res.body.ratings).toBeInstanceOf(Array);
       done();
     });
 };
@@ -167,7 +168,7 @@ describe('All test related to rating ', () => {
   test.only('cannot rate if the rating is undefined', cannotIfRateUndefinded);
   test.only('cannot rate if the rating is less than 1 and more than 5', cannotIfRateSupTo5);
   test.only('can rate', canRate);
-  test('can get all rating ', canGetAllRating);
+  test.only('can get all rating ', canGetAllRating);
 
   test('can edit rating ', canEditARating);
 
