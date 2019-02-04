@@ -5,5 +5,6 @@ const postRouters = Router();
 
 postRouters.post('/posts', Post.create);
 postRouters.delete('/posts/:id', Post.delete);
+postRouters.put('/posts/:id/views', Post.updateViewers);
 
 export default postRouters;

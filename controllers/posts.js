@@ -34,6 +34,18 @@ export default class PostController {
     }
   }
 
+  static async updateViewers(req, res) {
+    const { id } = req.params;
+    try {
+      const response = await Post.increment(['views'], { by: 1, where: { id } });
+      return response
+        ? res.status(201).send({ message: 'Post deleted Successfully', status: 201 })
+        : res.status(404).send({ message: 'Post not found', status: 404 });
+    } catch (error) {
+      return res.status(500).send({ message: error.stack, status: 500 });
+    }
+  }
+
   static async delete(req, res) {
     const { id } = req.params;
     const { userId } = req.user;
