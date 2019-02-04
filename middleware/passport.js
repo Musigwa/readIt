@@ -5,10 +5,10 @@ import models from '../models';
 dotenv.config();
 const { Strategy, ExtractJwt } = passportJwt;
 const { User } = models;
-const options = {};
-
-options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-options.secretOrKey = process.env.SECRET_OR_KEY;
+const options = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.SECRET_OR_KEY,
+};
 
 export default (passport) => {
   passport.use(
@@ -20,10 +20,7 @@ export default (passport) => {
           },
           attributes: ['id', 'firstName', 'lastName', 'email'],
         });
-        if (user) {
-          return done(null, user);
-        }
-        return done(null, false);
+        return user ? done(null, user) : done(null, false);
       } catch (error) {
         return done(error.stack, false);
       }

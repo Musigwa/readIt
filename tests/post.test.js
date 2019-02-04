@@ -85,18 +85,17 @@ describe('PUT /api/v1/posts/:postId', () => {
   });
 });
 describe('PUT /api/v1/user/posts', () => {
-  test('It should respond Unauthorized', async (done) => {
+  test('It should respond object of requested post', async (done) => {
     request(app)
       .get('/api/v1/user/posts')
       .end((err, res) => {
-        expect(res.statusCode).toBe(401);
+        expect(res.statusCode).toBe(200);
         done();
       });
   });
   test('It should respond object of requested post', async (done) => {
     request(app)
       .get('/api/v1/user/posts')
-      .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.statusCode).toBe(200);
         done();

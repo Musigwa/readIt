@@ -1,13 +1,25 @@
 import bcrypt from 'bcrypt';
 import models from '../models';
+import { checkValues } from '../helpers/validators';
 
 const { User, Post } = models;
 
 export default class UserController {
   static async create(req, res) {
+    const { isValid, errors } = checkValues(req.body, [
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+    ]);
+    if (!isValid) {
+      return res.status(400).json({ errors });
+    }
+
     const {
       firstName, lastName, email, password,
     } = req.body;
+
     bcrypt.hash(password, 10, async (err, hash) => {
       try {
         const user = await User.create({
@@ -17,10 +29,17 @@ export default class UserController {
           password: hash,
         });
         user.password = '************';
-        res.json({ status: 200, user });
-      } catch (error) {
-        const { fields, errors } = error;
-        res.json({ fields, message: errors ? errors[0].message : 'Unknown error' });
+        res.json({ user });
+      } catch (response) {
+        if (response.errors[0]) {
+          const { message } = response.errors[0];
+          message === 'email must be unique'
+            ? (errors.message = 'User already exist')
+            : (errors.message = message);
+        } else {
+          errors.message = 'Unknown error';
+        }
+        res.status(400).json({ errors });
       }
     });
   }
@@ -38,6 +57,7 @@ export default class UserController {
 
   static async getOneUser(req, res) {
     const { id } = req.params;
+    const errors = {};
     try {
       const user = await User.findOne({
         where: {
@@ -45,6 +65,10 @@ export default class UserController {
         },
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
+      if (!user) {
+        errors.message = 'User not found';
+        return res.status(404).json({ errors });
+      }
       res.json({ user });
     } catch (err) {
       res.status(500).send({ message: err.stack, status: 500 });
@@ -53,21 +77,26 @@ export default class UserController {
 
   static async update(req, res) {
     const { firstName, lastName } = req.body;
+    const errors = {};
     try {
       const user = await User.findOne({
         where: {
-          id: req.params.id,
+          id: parseFloat(req.params.id),
         },
         returning: true,
         plain: true,
       });
+      if (!user) {
+        errors.message = 'User not found';
+        return res.status(404).json({ errors });
+      }
       const updatedUser = await user.update({
         firstName,
         lastName,
       });
       updatedUser.password = '******';
 
-      res.json({ user: updatedUser });
+      return res.json({ user: updatedUser });
     } catch (err) {
       res.status(500).send({ message: err.stack, status: 500 });
     }
@@ -75,18 +104,22 @@ export default class UserController {
 
   static getMyPosts(req, res) {
     const userId = req.user.id;
-    Post.findAll({ where: { userId } }).then((dataValues) => {
-      if (dataValues.length === 0) {
-        return res.status(404).send({ message: 'The post does not exist', status: 404 });
-      }
-      return res.status(200).send({
-        message: 'A post fetched successfully',
-        status: 200,
-        post: dataValues,
+    Post.findAll({ where: { userId } })
+      .then((dataValues) => {
+        if (dataValues.length === 0) {
+          return res
+            .status(404)
+            .send({ message: 'The post does not exist', status: 404 });
+        }
+        return res.status(200).send({
+          message: 'A post fetched successfully',
+          status: 200,
+          post: dataValues,
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({ message: error.stack, status: 500 });
       });
-    }).catch((error) => {
-      res.status(500).send({ message: error.stack, status: 500 });
-    });
   }
   // delete user not sure!
 }
