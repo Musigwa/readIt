@@ -25,7 +25,7 @@ export default (passport) => {
         }
         return done(null, false);
       } catch (error) {
-        return done(error, false);
+        return done(error.stack, false);
       }
     }),
   );

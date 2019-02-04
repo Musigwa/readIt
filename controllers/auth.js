@@ -9,6 +9,7 @@ const { User } = models;
 export default class AuthController {
   static async login(req, res) {
     const { email, password } = req.body;
+
     try {
       const user = await User.findOne({
         where: {
@@ -29,12 +30,12 @@ export default class AuthController {
             payload,
             process.env.SECRET_OR_KEY,
             { expiresIn: '1d' },
-            (err, token) => res.json({ token }),
+            (err, token) => res.json({ status: 200, token }),
           );
         }
       });
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ message: error });
     }
   }
 

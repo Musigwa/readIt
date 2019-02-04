@@ -17,10 +17,9 @@ export default class UserController {
           password: hash,
         });
         user.password = '************';
-        res.json({ user });
+        res.json({ status: 200, user });
       } catch (error) {
         const { fields, errors } = error;
-        console.log(error);
         res.json({ fields, message: errors ? errors[0].message : 'Unknown error' });
       }
     });
@@ -33,7 +32,7 @@ export default class UserController {
       });
       res.json({ users });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
@@ -48,7 +47,7 @@ export default class UserController {
       });
       res.json({ user });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
@@ -70,13 +69,13 @@ export default class UserController {
 
       res.json({ user: updatedUser });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
   static getMyPosts(req, res) {
-    const { id } = req.params;
-    Post.findAll({ where: { userId: id } }).then((dataValues) => {
+    const userId = req.user.id;
+    Post.findAll({ where: { userId } }).then((dataValues) => {
       if (dataValues.length === 0) {
         return res.status(404).send({ message: 'The post does not exist', status: 404 });
       }
@@ -86,7 +85,7 @@ export default class UserController {
         post: dataValues,
       });
     }).catch((error) => {
-      res.status(500).send({ message: error, status: 500 });
+      res.status(500).send({ message: error.stack, status: 500 });
     });
   }
   // delete user not sure!

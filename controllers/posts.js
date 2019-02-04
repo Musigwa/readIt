@@ -6,9 +6,10 @@ const { User, Post } = models;
 
 export default class PostController {
   static async create(req, res) {
+    const userId = req.user.id;
     try {
       const {
-        title, content, userId, views, mediaPath,
+        title, content, views, mediaPath,
       } = req.body;
       // fetch user
       const UserResponse = await User.findOne({
@@ -39,6 +40,7 @@ export default class PostController {
   static async editPost(req, res) {
     try {
       const { postId } = req.params;
+      const userId = req.user.id;
       const {
         title, content, views, mediaPath,
       } = req.body;
@@ -46,6 +48,7 @@ export default class PostController {
       const postResponse = await Post.findOne({
         where: {
           id: postId,
+          userId,
         },
       });
 
