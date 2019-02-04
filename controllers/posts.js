@@ -1,7 +1,6 @@
 import moment from 'moment';
 import models from '../models';
 
-
 const { User, Post } = models;
 
 export default class PostController {
@@ -53,10 +52,16 @@ export default class PostController {
       });
 
       if (!postResponse) {
-        return res.status(404).send({ message: 'The post does not exist', status: 404 });
+        return res
+          .status(404)
+          .send({ message: 'The post does not exist', status: 404 });
       }
       const { dataValues } = await postResponse.update({
-        title, content, views, mediaPath, updatedAt: moment().format(),
+        title,
+        content,
+        views,
+        mediaPath,
+        updatedAt: moment().format(),
       });
 
       return res.status(200).send({
@@ -80,7 +85,9 @@ export default class PostController {
       });
 
       if (!postResponse) {
-        return res.status(404).send({ message: 'The post does not exist', status: 404 });
+        return res
+          .status(404)
+          .send({ message: 'The post does not exist', status: 404 });
       }
 
       return res.status(200).send({
@@ -93,12 +100,39 @@ export default class PostController {
     }
   }
 
+  static async updateViewers(req, res) {
+    const { id } = req.params;
+    try {
+      const response = await Post.increment(['views'], { by: 1, where: { id } });
+      return response
+        ? res.status(201).send({ message: 'Post deleted Successfully', status: 201 })
+        : res.status(404).send({ message: 'Post not found', status: 404 });
+    } catch (error) {
+      return res.status(500).send({ message: error.stack, status: 500 });
+    }
+  }
+
+  static async delete(req, res) {
+    const { id } = req.params;
+    const { userId } = req.user;
+    try {
+      const response = await Post.destroy({ where: { id, userId } });
+      return response
+        ? res.status(201).send({ message: 'Post deleted Successfully', status: 201 })
+        : res.status(404).send({ message: 'Post not found', status: 404 });
+    } catch (error) {
+      return res.status(500).send({ message: error.stack, status: 500 });
+    }
+  }
+
   static async getAllPost(req, res) {
     try {
       const postResponse = await Post.findAll({
-        include: [{
-          model: User,
-        }],
+        include: [
+          {
+            model: User,
+          },
+        ],
       });
       if (!postResponse) {
         return res.status(404).send({ message: 'No posts available' });
