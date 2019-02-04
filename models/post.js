@@ -11,8 +11,8 @@ export default (sequelize, DataTypes) => {
     },
     {},
   );
-  // Post.associate = models => {
-  //   Post.belongsTo(models.User);
-  // };
+  Post.associate = models => {
+    Post.belongsTo(models.User);
+  };
   return Post;
 };
