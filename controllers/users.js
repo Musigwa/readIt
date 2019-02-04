@@ -21,6 +21,9 @@ export default class UserController {
 } = req.body;
 
     bcrypt.hash(password, 10, async (err, hash) => {
+      if (err) {
+        return res.status(500).json({ message: 'failed', errors: err });
+      }
       try {
         const user = await User.create({
           firstName,
@@ -29,7 +32,7 @@ export default class UserController {
           password: hash,
         });
         user.password = '************';
-        res.json({ user });
+        return res.json({ user });
       } catch (response) {
         if (response.errors[0]) {
           const { message } = response.errors[0];
@@ -39,7 +42,7 @@ export default class UserController {
         } else {
           errors.message = 'Unknown error';
         }
-        res.status(400).json({ errors });
+        return res.status(400).json({ errors });
       }
     });
   }
@@ -49,9 +52,9 @@ export default class UserController {
       const users = await User.findAll({
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
       });
-      res.json({ users });
+      return res.json({ users });
     } catch (err) {
-      console.log(err);
+      return res.status(500).json({ message: 'failed', errors: err });
     }
   }
 
@@ -69,9 +72,9 @@ export default class UserController {
         errors.message = 'User not found';
         return res.status(404).json({ errors });
       }
-      res.json({ user });
+      return res.json({ user });
     } catch (err) {
-      console.log(err);
+      return res.status(500).json({ message: 'failed', errors: err });
     }
   }
 
@@ -98,7 +101,7 @@ export default class UserController {
 
       return res.json({ user: updatedUser });
     } catch (err) {
-      console.log(err);
+      return res.status(500).json({ message: 'failed', errors: err });
     }
   }
 

@@ -35,8 +35,8 @@ export default class AuthController {
           res.status(400).json({ message: 'Invalid email or password' });
         }
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      return res.status(500).json({ message: 'failed', errors: err });
     }
   }
 
