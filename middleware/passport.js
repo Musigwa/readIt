@@ -22,7 +22,7 @@ export default (passport) => {
         });
         return user ? done(null, user) : done(null, false);
       } catch (error) {
-        return done(error, false);
+        return done(error.stack, false);
       }
     }),
   );
