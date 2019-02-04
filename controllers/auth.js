@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import bcrpty from 'bcrypt';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
@@ -9,6 +9,7 @@ const { User } = models;
 export default class AuthController {
   static async login(req, res) {
     const { email, password } = req.body;
+
     try {
       const user = await User.findOne({
         where: {
@@ -19,7 +20,7 @@ export default class AuthController {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      return bcrpty.compare(password, user.password, (error, match) => {
+      return bcrypt.compare(password, user.password, (error, match) => {
         if (match) {
           const payload = {
             id: user.id,
@@ -29,7 +30,7 @@ export default class AuthController {
             payload,
             process.env.SECRET_OR_KEY,
             { expiresIn: '1d' },
-            (err, token) => res.json({ token }),
+            (err, token) => res.json({ status: 200, token }),
           );
         } else {
           res.status(400).json({ message: 'Invalid email or password' });
@@ -37,9 +38,8 @@ export default class AuthController {
       });
     } catch (err) {
       return res.status(500).json({ message: 'failed', errors: err });
-    }
   }
-
+    
   static async current(req, res) {
     res.json({ user: req.user });
   }

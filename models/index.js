@@ -9,21 +9,14 @@ const config = configPath[env];
 
 const db = {};
 
-let sequelize;
-if (config.use_env_variable) {
-  // add DATABASE_URL to your .env
-  sequelize = new Sequelize(process.env.DATABASE_URL, config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config,
-  );
-}
+const sequelize = config.use_env_variable
+  ? new Sequelize(process.env.DATABASE_URL, config)
+  : new Sequelize(config.database, config.username, config.password, config);
 
 fs.readdirSync(__dirname)
-  .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
+  .filter(
+    file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js',
+  )
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;

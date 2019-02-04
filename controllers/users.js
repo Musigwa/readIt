@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import models from '../models';
 import { checkValues } from '../helpers/validators';
 
-const { User } = models;
+const { User, Post } = models;
 
 export default class UserController {
   static async create(req, res) {
@@ -17,8 +17,8 @@ export default class UserController {
     }
 
     const {
- firstName, lastName, email, password 
-} = req.body;
+      firstName, lastName, email, password,
+    } = req.body;
 
     bcrypt.hash(password, 10, async (err, hash) => {
       if (err) {
@@ -54,7 +54,7 @@ export default class UserController {
       });
       return res.json({ users });
     } catch (err) {
-      return res.status(500).json({ message: 'failed', errors: err });
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
@@ -74,7 +74,7 @@ export default class UserController {
       }
       return res.json({ user });
     } catch (err) {
-      return res.status(500).json({ message: 'failed', errors: err });
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
@@ -101,9 +101,28 @@ export default class UserController {
 
       return res.json({ user: updatedUser });
     } catch (err) {
-      return res.status(500).json({ message: 'failed', errors: err });
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
+  static getMyPosts(req, res) {
+    const userId = req.user.id;
+    Post.findAll({ where: { userId } })
+      .then((dataValues) => {
+        if (dataValues.length === 0) {
+          return res
+            .status(404)
+            .send({ message: "User doesn't have any post", status: 404 });
+        }
+        return res.status(200).send({
+          message: 'Posts fetched successfully',
+          status: 200,
+          post: dataValues,
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({ message: error.stack, status: 500 });
+      });
+  }
   // delete user not sure!
 }
