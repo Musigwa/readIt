@@ -10,26 +10,27 @@ export default class UserController {
       'firstName',
       'lastName',
       'email',
-      'password',
+      'password'
     ]);
     if (!isValid) {
       return res.status(400).json({ errors });
     }
 
-    const {
-      firstName, lastName, email, password,
-    } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     bcrypt.hash(password, 10, async (err, hash) => {
+      if (err) {
+        return res.status(500).json({ message: 'failed', errors: err });
+      }
       try {
         const user = await User.create({
           firstName,
           lastName,
           email,
-          password: hash,
+          password: hash
         });
         user.password = '************';
-        res.json({ user });
+        return res.json({ user });
       } catch (response) {
         if (response.errors[0]) {
           const { message } = response.errors[0];
@@ -39,7 +40,7 @@ export default class UserController {
         } else {
           errors.message = 'Unknown error';
         }
-        res.status(400).json({ errors });
+        return res.status(400).json({ errors });
       }
     });
   }
@@ -47,9 +48,9 @@ export default class UserController {
   static async getAllUser(req, res) {
     try {
       const users = await User.findAll({
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
       });
-      res.json({ users });
+      return res.json({ users });
     } catch (err) {
       res.status(500).send({ message: err.stack, status: 500 });
     }
@@ -61,15 +62,15 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id,
+          id
         },
-        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
       });
       if (!user) {
         errors.message = 'User not found';
         return res.status(404).json({ errors });
       }
-      res.json({ user });
+      return res.json({ user });
     } catch (err) {
       res.status(500).send({ message: err.stack, status: 500 });
     }
@@ -81,10 +82,10 @@ export default class UserController {
     try {
       const user = await User.findOne({
         where: {
-          id: parseFloat(req.params.id),
+          id: parseFloat(req.params.id)
         },
         returning: true,
-        plain: true,
+        plain: true
       });
       if (!user) {
         errors.message = 'User not found';
@@ -92,7 +93,7 @@ export default class UserController {
       }
       const updatedUser = await user.update({
         firstName,
-        lastName,
+        lastName
       });
       updatedUser.password = '******';
 
@@ -105,19 +106,17 @@ export default class UserController {
   static getMyPosts(req, res) {
     const userId = req.user.id;
     Post.findAll({ where: { userId } })
-      .then((dataValues) => {
+      .then(dataValues => {
         if (dataValues.length === 0) {
-          return res
-            .status(404)
-            .send({ message: "User doesn't have any post", status: 404 });
+          return res.status(404).send({ message: "User doesn't have any post", status: 404 });
         }
         return res.status(200).send({
           message: 'Posts fetched successfully',
           status: 200,
-          post: dataValues,
+          post: dataValues
         });
       })
-      .catch((error) => {
+      .catch(error => {
         res.status(500).send({ message: error.stack, status: 500 });
       });
   }

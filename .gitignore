@@ -7,3 +7,7 @@ npm-debug.log
 #env configuration
 .env
 coverage/
+*coveralls.yml
+# nyc test coverage
+.nyc_output
+*package-lock.json

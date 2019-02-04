@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from '../index';
+import { userId, userToken } from './user.test';
 
 const validPostId = 15;
 const invalidPostId = 84372;
@@ -23,13 +24,12 @@ describe('POST api/v1/posts', () => {
       .send({
         title: 'fabricee@gmail.com',
         content: 'Fabrice',
+        userId,
         views: 0,
-        mediaPath: 'fabricee',
-      })
-      .end((err, res) => {
-        expect(res.statusCode).toBe(201);
-        done();
+        mediaPath: 'fabricee'
       });
+    console.log(post.body, '============== cannot understand why');
+    expect(post.body.status).toBe(201);
   });
 });
 
@@ -57,6 +57,9 @@ describe('PUT /api/v1/posts/:postId/content', () => {
         title: 'fabricee@gmail.com',
         content: 'Fabricew',
         views: 0,
+<<<<<<< HEAD
+        mediaPath: 'fabricee'
+=======
         mediaPath: 'fabricee',
       })
       .end((err, res) => {
@@ -116,6 +119,7 @@ describe('GET /api/v1/posts', () => {
       .end((err, res) => {
         expect(res.statusCode).toBe(200);
         done();
+>>>>>>> develop
       });
   });
 });

@@ -61,6 +61,6 @@ export default {
     UNSUFFICIENT_STORAGE: 507,
     LOOP_DETECTED: 508,
     NOT_EXTENDED: 510,
-    NET_AUTH_REQUIRED: 511
-  }
+    NET_AUTH_REQUIRED: 511,
+  },
 };

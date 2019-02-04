@@ -7,23 +7,25 @@ const { Strategy, ExtractJwt } = passportJwt;
 const { User } = models;
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.SECRET_OR_KEY,
+  secretOrKey: process.env.SECRET_OR_KEY
 };
 
-export default (passport) => {
+export default passport => {
   passport.use(
     new Strategy(options, async (jwtPayload, done) => {
       try {
         const user = await User.findOne({
           where: {
-            id: jwtPayload.id,
+            id: jwtPayload.id
           },
-          attributes: ['id', 'firstName', 'lastName', 'email'],
+          attributes: ['id', 'firstName', 'lastName', 'email']
         });
         return user ? done(null, user) : done(null, false);
       } catch (error) {
-        return done(error.stack, false);
+        return done(error, false, {
+          message: 'Please provide a token to perform this action'
+        });
       }
-    }),
+    })
   );
 };

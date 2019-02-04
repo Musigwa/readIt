@@ -13,8 +13,8 @@ export default class AuthController {
     try {
       const user = await User.findOne({
         where: {
-          email,
-        },
+          email
+        }
       });
       if (!user) {
         return res.status(400).json({ message: 'Invalid email or password' });
@@ -24,23 +24,19 @@ export default class AuthController {
         if (match) {
           const payload = {
             id: user.id,
-            email: user.email,
+            email: user.email
           };
-          jwt.sign(
-            payload,
-            process.env.SECRET_OR_KEY,
-            { expiresIn: '1d' },
-            (err, token) => res.json({ status: 200, token }),
+          jwt.sign(payload, process.env.SECRET_OR_KEY, { expiresIn: '1d' }, (err, token) =>
+            res.json({ status: 200, token })
           );
         } else {
           res.status(400).json({ message: 'Invalid email or password' });
         }
       });
-    } catch (error) {
-      return res.status(500).json({ message: error });
-    }
+    } catch (err) {
+      return res.status(500).json({ message: 'failed', errors: err });
   }
-
+    
   static async current(req, res) {
     res.json({ user: req.user });
   }
