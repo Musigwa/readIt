@@ -10,24 +10,27 @@ List of endpoints exposed by the service
 
 ### Getting Started
 
-Step by step instructions on how to get the code setup locally. This may include:
+### Get the latest version
 
-- clone this repository: `git clone git@github.com:abayo-luc/readIt.git`
-- Change directory: `cd readIt`
+```https://github.com/abayo-luc/readIt.git```
 
-## Update PRIVATE section in sample.env file and rename it to '.env'
+### Change directory
 
-`cp sample.env ./.env`
+```cd readit```
 
-## Install the dependencies
+### Update the environments variables in sample.env file and rename it to '.env'
 
-`yarn`
+```mv sample.env .env```
 
-## Start the application
+### Install the dependencies 
 
-`yarn server`
+```yarn```
 
-## Testing
+### Start the application
+
+````yarn server````
+
+### Testing
 
 `yarn test`
 

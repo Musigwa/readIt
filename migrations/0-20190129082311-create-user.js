@@ -1,25 +1,32 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Comments', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'Users', key: 'id' },
-      },
-      postId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'Posts', key: 'id' },
-      },
-      text: {
+      firstName: {
         allowNull: false,
         type: Sequelize.STRING,
+      },
+      lastName: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      email: {
+        allowNull: false,
+        unique: true,
+        type: Sequelize.STRING,
+      },
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -32,6 +39,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Comments');
+    return queryInterface.dropTable('Users');
   },
 };

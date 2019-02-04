@@ -6,12 +6,14 @@ export default (sequelize, DataTypes) => {
       content: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       views: DataTypes.INTEGER,
-      mediaPath: DataTypes.STRING,
+      mediaPath: DataTypes.STRING
     },
-    {},
+    {}
   );
-  Post.associate = (models) => {
-    Post.belongsTo(models.User, { foreignKey: 'userId' });
+  Post.associate = models => {
+    Post.belongsTo(models.User);
+    Post.hasMany(models.Rating);
+    Post.hasMany(models.Comment);
   };
   return Post;
 };

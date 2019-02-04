@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 export default (sequelize, DataTypes) => {
   const Rating = sequelize.define(
     'Rating',
@@ -6,10 +7,11 @@ export default (sequelize, DataTypes) => {
       postId: DataTypes.INTEGER,
       rating: DataTypes.INTEGER,
     },
-    {},
+    {}
   );
-  Rating.associate = function (models) {
-    // associations can be defined here
+  Rating.associate = models => {
+    Rating.belongsTo(models.User);
+    Rating.belongsTo(models.Post);
   };
   return Rating;
 };
