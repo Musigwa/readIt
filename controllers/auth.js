@@ -33,11 +33,10 @@ export default class AuthController {
           res.status(400).json({ message: 'Invalid email or password' });
         }
       });
-    } catch (error) {
-      return res.status(500).json({ message: error });
-    }
+    } catch (err) {
+      return res.status(500).json({ message: 'failed', errors: err });
   }
-
+    
   static async current(req, res) {
     res.json({ user: req.user });
   }
