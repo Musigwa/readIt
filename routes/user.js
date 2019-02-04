@@ -9,11 +9,7 @@ userRouters
   .post('/users', User.create)
   .get('/users', passport.authenticate('jwt', { session: false }), User.getAllUser)
   .get('/users/:id', passport.authenticate('jwt', { session: false }), User.getOneUser)
-  .put(
-    '/users/:id',
-    passport.authenticate('jwt', { session: false }),
-    userAuthorization,
-    User.update
-  );
+  .put('/users/:id', passport.authenticate('jwt', { session: false }), User.update)
+  .get('/user/posts', passport.authenticate('jwt', { session: false }), User.getMyPosts);
 
 export default userRouters;

@@ -9,6 +9,7 @@ const { User } = models;
 export default class AuthController {
   static async login(req, res) {
     const { email, password } = req.body;
+
     try {
       const user = await User.findOne({
         where: {
@@ -26,14 +27,14 @@ export default class AuthController {
             email: user.email
           };
           jwt.sign(payload, process.env.SECRET_OR_KEY, { expiresIn: '1d' }, (err, token) =>
-            res.json({ token })
+            res.json({ status: 200, token })
           );
         } else {
           res.status(400).json({ message: 'Invalid email or password' });
         }
       });
     } catch (error) {
-      console.log(error);
+      return res.status(500).json({ message: error });
     }
   }
 

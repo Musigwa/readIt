@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import models from '../models';
 import { checkValues } from '../helpers/validators';
 
-const { User } = models;
+const { User, Post } = models;
 
 export default class UserController {
   static async create(req, res) {
@@ -49,7 +49,7 @@ export default class UserController {
       });
       res.json({ users });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
@@ -69,7 +69,7 @@ export default class UserController {
       }
       res.json({ user });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
@@ -96,9 +96,26 @@ export default class UserController {
 
       return res.json({ user: updatedUser });
     } catch (err) {
-      console.log(err);
+      res.status(500).send({ message: err.stack, status: 500 });
     }
   }
 
+  static getMyPosts(req, res) {
+    const userId = req.user.id;
+    Post.findAll({ where: { userId } })
+      .then(dataValues => {
+        if (dataValues.length === 0) {
+          return res.status(404).send({ message: "User doesn't have any post", status: 404 });
+        }
+        return res.status(200).send({
+          message: 'Posts fetched successfully',
+          status: 200,
+          post: dataValues
+        });
+      })
+      .catch(error => {
+        res.status(500).send({ message: error.stack, status: 500 });
+      });
+  }
   // delete user not sure!
 }

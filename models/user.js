@@ -8,7 +8,7 @@ export default (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      isAdmin: DataTypes.BOOLEAN,
+      isAdmin: DataTypes.BOOLEAN
     },
     {
       validate: {
@@ -17,8 +17,8 @@ export default (sequelize, DataTypes) => {
           if (!regExp.test(this.email)) {
             throw new Error('Invalid email address');
           }
-        },
-      },
+        }
+      }
     }
   );
   User.associate = models => {
@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
     User.hasMany(models.Rating, { foreignKey: 'userId_fk_rating', as: 'ratings' });
     User.hasMany(models.Comment, {
       foreignKey: 'userId_fk_comments',
-      as: 'comments',
+      as: 'comments'
     });
   };
   return User;

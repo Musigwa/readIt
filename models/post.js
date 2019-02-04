@@ -1,4 +1,3 @@
-/* eslint-disable arrow-parens */
 export default (sequelize, DataTypes) => {
   const Post = sequelize.define(
     'Post',
@@ -7,7 +6,7 @@ export default (sequelize, DataTypes) => {
       content: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       views: DataTypes.INTEGER,
-      mediaPath: DataTypes.STRING,
+      mediaPath: DataTypes.STRING
     },
     {}
   );

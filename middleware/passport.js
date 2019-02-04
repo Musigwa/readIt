@@ -7,7 +7,7 @@ const { Strategy, ExtractJwt } = passportJwt;
 const { User } = models;
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.SECRET_OR_KEY,
+  secretOrKey: process.env.SECRET_OR_KEY
 };
 
 export default passport => {
