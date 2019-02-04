@@ -17,7 +17,7 @@ module.exports = {
     userId: {
       allowNull: false,
       type: Sequelize.INTEGER,
-      references: { model: 'user', key: 'id' },
+      // references: { model: 'User', key: 'id' },
     },
     views: {
       type: Sequelize.INTEGER,
@@ -35,5 +35,5 @@ module.exports = {
       type: Sequelize.DATE,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('Posts'),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Posts'),
 };
