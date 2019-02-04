@@ -109,10 +109,10 @@ export default class UserController {
         if (dataValues.length === 0) {
           return res
             .status(404)
-            .send({ message: 'The post does not exist', status: 404 });
+            .send({ message: "User doesn't have any post", status: 404 });
         }
         return res.status(200).send({
-          message: 'A post fetched successfully',
+          message: 'Posts fetched successfully',
           status: 200,
           post: dataValues,
         });

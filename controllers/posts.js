@@ -95,7 +95,11 @@ export default class PostController {
 
   static async getAllPost(req, res) {
     try {
-      const postResponse = await Post.findAll();
+      const postResponse = await Post.findAll({
+        include: [{
+          model: User,
+        }],
+      });
       if (!postResponse) {
         return res.status(404).send({ message: 'No posts available' });
       }
@@ -106,19 +110,7 @@ export default class PostController {
         posts: postResponse,
       });
     } catch (error) {
-      return res.status(500).send({ message: error, status: 500 });
-    }
-  }
-
-  static async delete(req, res) {
-    const { id } = req.params;
-    const { userId } = req.user;
-    try {
-      const response = await Post.destroy({ where: { id, userId } });
-      return response
-        ? res.status(201).send({ message: 'Post deleted Successfully', status: 201 })
-        : res.status(404).send({ message: 'Post not found', status: 404 });
-    } catch (error) {
+      console.log(error.stack);
       return res.status(500).send({ message: error.stack, status: 500 });
     }
   }
